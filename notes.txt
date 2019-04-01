@@ -1,0 +1,15 @@
+
+Parsers:
+1) XMLParser : Supports SAX and DOM. http://www.squeaksource.com/XMLSupport.html
+2) VWXML Parser : Supports SAX and DOM (AFAIK)
+http://www.squeaksource.com/VWXML.html
+3) XMLPullParser : Supports StAX. http://www.squeaksource.com/XMLPullParser.html
+
+XML Query tools
+1) Pastell : Supports X-Path like queries. Requires XMLParser.
+http://www.squeaksource.com/Pastell.html
+2) XPath library : Supports XPath partially. Requires XMLParser.
+http://www.squeaksource.com/XPath.html
+
+
+
