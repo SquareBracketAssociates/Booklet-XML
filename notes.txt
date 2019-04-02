@@ -1,15 +1,32 @@
 
 Parsers:
-1) XMLParser : Supports SAX and DOM. http://www.squeaksource.com/XMLSupport.html
-2) VWXML Parser : Supports SAX and DOM (AFAIK)
-http://www.squeaksource.com/VWXML.html
+1) XMLParser : Supports SAX and DOM. 
+	https://github.com/svenvc/XML-Support-Pharo
+	
+	[ STH XMLWriter/PharoExtras 
+	STH XMLParser/PharoExtras ]
+	
 3) XMLPullParser : Supports StAX. http://www.squeaksource.com/XMLPullParser.html
+	
+	to check: [STH 
+	XMLParserStAX/PharoExtras
+	XMLPullParser/hernan ]
+
 
 XML Query tools
-1) Pastell : Supports X-Path like queries. Requires XMLParser.
-http://www.squeaksource.com/Pastell.html
-2) XPath library : Supports XPath partially. Requires XMLParser.
-http://www.squeaksource.com/XPath.html
+	1) Pastell : Supports X-Path like queries. Requires XMLParser.
+	[STHUB 
+	PharoExtras/Pastell/
+	]
 
+	2) XPath library : Supports XPath partially. 
+	
+	STH
+	[ XPath/PharoExtras 
+	check: hernan/XPath/]
+
+	3) SIXX 
+	STH
+	[ SIXX/MasashiUmezawa ]
 
 

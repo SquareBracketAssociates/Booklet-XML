@@ -1,0 +1,94 @@
+Pastell
+Last updated at 3:27 am UTC on 7 June 2008
+Pastell is an add-on to YAXO that makes navigation of an XML DOM tree much easier.
+
+This text documents how Pastell works. It can't and won't be guarenteed that it will be up-to-date with the actual code; please refer to the test suite and the code in order to be sure how this stuff is supposed to work.
+Protocol
+
+XMLElement
+
+#child: & #/
+Let's suppose that we have this XML fragment:
+<html>
+   <head>
+     <title>Hello</title>
+   </head>
+   <body>
+     <p>
+       <h1>Hello</h1>
+     </p>
+	  <p id="squeak">
+	     Squeak!
+	  </p>
+   </body>
+ </html>
+and that we have an XMLElement instance for the 'body' tag. By sending it a #child: message with a symbol as argument, we can get all the tags under body whose name is equal to the argument of the #child: send. Thus,
+   body child: #p
+will return a collection (instance of PastellCollection) whose elements are those XMLElements instance whose name is 'p'. Instead of using #child: (the "full" form), we can also send #/ ("shorthand" form):
+   body / #p
+or even omit the selector and just send a #p message ("direct" form):
+   body p
+The difference between the full and shorthand forms and the direct form is that the former always return a collection (in case, just an empty one), while the latter raise a MessageNotUnderstood exception if there aren't any tags with that name. This means that
+   body / #frobnicate
+will return an empty PastellCollection, while
+	body frobnicate
+will raise a MessageNotUnderstood exception.
+
+#children
+
+While #child: may return only a part of the child nodes of an XML element, or even none, #children always returns a collection with all the child nodes of the element. So
+	html children
+will return a collection whose first element corresponds to the 'head' tag, and whose second element corresponds to the 'body' tag.
+
+#descendant: & #//
+
+Similar to #child:, #descendant: returns all the XMLElement instances that are descendant of the receiver, including if necessary the receiver itself. So, if we have an XMLElement instance for the 'html' tag, we could send ("full" form)
+   html descendant: #p
+or ("shorthand" form)
+  html // #p
+in order to get a collection with the 'p' XMLElement instances.
+
+#parent
+
+Will return the parent root of an XML element, that is the node that contains the element. So
+   body parent
+will return an XMLElement for the 'html' tag.
+
+#ancestor:
+
+Will return the XMLElement ancestor of the recevier whose name is equal to the symbol sent as an argument of #ancestor. For example,
+    title ancestor: #html
+will return the XMLElement for the 'html' tag.
+
+#at: and #@
+
+An XMLElement instance also understands two new attributes-related messages. Both the messages are sent with a symbol as argument, and return the value of the corresponding attribute, or nil if no attribute is found. So,
+    p at: #id
+is the "full" form and
+    p @ #id
+is the "shorthand" form. Both forms will return the string 'squeak' when sent to the second 'p' element.
+
+XMLDocument
+
+An XMLDocument instance understands the #child:, and #descendant: messages, and their shortcut forms. It also understands the "direct" form of #child:. Other messages understood by XMLDocument are #root and #ancestor:.
+
+#root
+This message returns the root node of the document. Please note that, in the above sample, the following relationship is true:
+	(document root) == ((document child: #html) first)
+
+
+#ancestor:
+
+Sending #ancestor: to an XMLDocument instance will always result in a nil return value, regardless of the argument of the message send.
+
+PastellCollection
+
+PastellCollection is the specialized collection used by the Pastell extensions. it behaves like a sequenceable collection, but also understands some Pastell messages like #child: and #descendant: .
+
+#child: and #descendant:
+Sending #child: or #descendant: to a PastellCollection instance will result in a new PastelCollection whose contents are the result of sending #child:/#descendant: to the single elements of the receiver.
+
+PastellCollection also understands the shorthand form of #child: and :descendant: and the direct form of #child:.
+
+#contentString
+If we have a PastellCollection whose elements have a textual content, that content may be retrieved by sending #contentString to the collection. This will return a collection whose elements are the contents we were looking for.
